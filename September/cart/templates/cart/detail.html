@@ -1,0 +1,96 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}Your shopping cart{% endblock %}
+
+{% block content %}
+<h1>Your shopping cart</h1>
+{% if error %}
+<p style="color: red">Please choose some products.</p>
+{% endif %}
+<form method="GET" action="{% url 'cart:checkout' %}">
+    {% csrf_token %}
+    <table class="cart">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkAll" name="checkAll"></th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+                <th>Unit price</th>
+                <th>Price</th>              
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            {% with product=item.item %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
+                </td>
+                <td>
+                    <a href="{{product.get_absolute_url}}">
+                        <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                    </a>
+                </td>
+                <td>{{product.name}}</td>
+                <td>
+                    Quantity:{{item.item_quantity}}
+                    <div><br></div>
+                    <form action="{% url 'cart:cart_change_num' product.id %}" method="post">
+                        {{cart_product_form.quantity}}
+                        <input type="submit" value="Change">
+                        {% csrf_token %}
+                    </form>
+                </td>
+                <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
+                <td class="num">${{product.price}}</td>
+                <td class="num">${{item.get_price}}</td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            <tr class="total">
+                <td>Total</td>
+                <td colspan="5"></td>
+                <td class="num">${{cart.get_total_price}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Checkout">
+</form>
+<p class="text-right">
+        <a href="{% url 'shop:product_list' %}" class="button light">Continue shopping</a>
+</p>
+    
+<script type="text/javascript">
+    $(function(){
+        function initTableCheckbox(){
+            var $thr=$('table thead tr');
+            var $tbr=$('table tbody tr');
+            var $checkAllTh=$('<th><input type="checkbox" id="checkAll" name="checkAll"></th>');
+            var $checkAll=$thr.find('input');
+
+            $checkAll.click(function(event){
+                //所有项的“是否选中”状态设置为“checkAll”的“是否选中”状态
+                $tbr.find('input').prop('checked',$(this).prop('checked'));
+                //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
+                event.stopPropagation();
+            });
+            //点击全选框所在单元格时也触发全选框的点击操作
+            $checkAllTh.click(function(){
+                $(this).find('input').click();
+
+            });
+
+            $tbr.find('input').click(function(event){
+                $checkAll.prop('checked',$tbr.find('input:checked').length==$tbr.length?true:false);
+                event.stopPropagation();
+            });
+
+        }
+        initTableCheckbox();
+
+    });
+</script>    
+{% endblock %}
+

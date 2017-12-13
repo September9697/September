@@ -1,0 +1,14 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    Create Comment
+{% endblock %}
+
+{% block content %}
+    <div class="comment">
+        <form action="{% url 'comment:create' item_id %}" method="POST">
+            {{comment_form.as_p}}
+            {% csrf_token %}
+            <p><input type="submit" value="Add comment"></p>
+        </form>
+    </div>
+{% endblock %}

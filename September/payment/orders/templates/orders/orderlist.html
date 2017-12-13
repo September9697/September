@@ -1,0 +1,23 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Your orders
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for order in orders %}
+            <li>
+                <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
+                <br>
+                {% if order.verified %}
+                    <p>The order has been verified</p>
+                {% else %}
+                    <a href="{% url 'orders:verify' order.id %}">Verifiy the order</a>
+                {% endif %}
+
+                <br>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
