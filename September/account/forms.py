@@ -7,25 +7,25 @@ class RegisterForm(forms.Form):
 		label='username',
 		max_length=20,
 		initial='',
-		widget=forms.TextInput(attrs={'class':'form-control'}),
+		widget=forms.TextInput(attrs={'class':'form-control','placeholder':'用户名'}),
     )
 	email=forms.EmailField(
         label='email',
         max_length=50,
         initial='',
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'邮箱'}),
     )
 	password = forms.CharField(
     	label='password',
 		min_length=6,
 		max_length=18,
-		widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+		widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'密码'}),
 		)
 	confirm_password=forms.CharField(
 		label='confirm',
 		min_length=6,
 		max_length=18,
-		widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+		widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder':'确认密码'}),
 	)
 
 	def clean_username(self):

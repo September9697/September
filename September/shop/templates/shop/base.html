@@ -5,46 +5,208 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Custom Theme files -->
+	<!--theme-style-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />	
     <title>{% block title %}My shop{% endblock %}</title>
     <!-- Bootstrap -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!--fonts-->
+	<link href='https://fonts.googleapis.com/css?family=Exo:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+	<!--//fonts-->
+	<script type="text/javascript" src="{% static 'js/move-top.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/easing.js' %}"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+	</script>
+	<!--slider-script-->
+	<script src="{% static 'js/responsiveslides.min.js' %}"></script>
+	<script>
+	$(function () {
+        $("#slider1").responsiveSlides({
+            auto: true,
+            speed: 500,
+            namespace: "callbacks",
+            pager: true,
+        });
+	});
+	</script>
+	<!--//slider-script-->
+	<script>$(document).ready(function(c) {
+        $('.alert-close').on('click', function(c){
+            $('.message').fadeOut('slow', function(c){
+                $('.message').remove();
+                });
+            });	  
+        });
+	</script>
+	<script>$(document).ready(function(c) {
+        $('.alert-close1').on('click', function(c){
+            $('.message1').fadeOut('slow', function(c){
+                $('.message1').remove();
+                });
+            });	  
+        });
+	</script>
 </head>
 <body>
-    <div id="header">
-        <a href="{% url 'shop:product_list' %}" class="logo">September</a>
-    </div>
-    <div id="subheader">
-        <div class="user">
-            {% if request.user.is_authenticated %}
-                Welcome to September,<a href="{% url 'account:profile_view' %}">{{request.user.username}}</a>.
-                <a href="{% url 'account:logout' %}">logout</a>
-                <a href="{% url 'orders:order_list' %}">orders</a>
-            {% else %}
-                <a href="{% url 'account:login' %}">Please login</a>
-                <a href="{% url 'account:register' %}"> or register</a>
-            {% endif %}
+    <div class="header-top">
+        <div class="container">	
+            <div class="header-top-in">			
+                <div class="logo">
+                    <a href="{% url 'shop:product_list' %}"><img src="{% static 'images/logo1.png' %}" alt=" " ></a>
+                </div>
+                <div class="header-in">
+                    <ul class="icon1 sub-icon1">
+                        {% if request.user.is_authenticated %}
+							<li id="zt1" ><a href="{% url 'account:profile_view' %}">{{request.user.username}}</a></li>
+							<li id="zt1"><a href="{% url 'account:logout' %}">注销</a></li>
+							<li id="zt1"><a href="{% url 'orders:order_list' %}">订单</a></li>
+							<li id="zt1"><a href="{% url 'cart:cart_detail' %}">购物车</a></li>
+						{% else %}
+							<li id="zt1"><a href="{% url 'account:login' %}">请登录</a></li>
+							<li id="zt1"><a href="{% url 'account:register' %}"> 注册</a></li>
+                        {% endif %}     
+                        <div class="clearfix"></div>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            
         </div>
-        <div class="cart">
-            <a href="{% url 'cart:cart_detail' %}">Your cart</a>
-        </div>
-        
-    </div>
-    <div id="content">
-        {% block content %}
-        {% endblock %}
     </div>
 
+    <div class="header-bottom">
+        <div class="container">
+            <div class="h_menu4">
+                <a class="toggleMenu" href="#">Menu</a>
+                <ul class="nav">
+                        <li {% if not category %}{% endif %} style="padding-top:1.5em">
+                            <a href="{% url "shop:product_list" %}">All</a>
+                            <ul class="drop">
+                                {% for c in categories %}
+                                    <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% for c in categories %}
+                        <li {% if category.slug == c.slug %}{% endif %} style="padding-top:1.5em">
+                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                            <ul class="drop">
+                                <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                            </ul>
+                        </li>
+                        {% endfor %}           
+                </ul>
+                <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom-in">
+            <div class="container">
+                <div class="header-bottom-on">
+                    <p class="wel"><a href="#">Welcome to September Shoppingmall!</a></p>
+                    <div class="header-can">
+                        <ul class="social-in">
+                               <!-- JiaThis Button BEGIN -->
+                            <div class="jiathis_style">
+                                <span class="jiathis_txt"></span>
+                                <a class="jiathis_button_copy"></a>
+                                <a class="jiathis_button_cqq"></a>
+                                <a class="jiathis_button_weixin"></a>
+                                <a class="jiathis_button_email"></a>
+                                
+                                <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+                            </div>
+                            <script type="text/javascript" >
+                            var jiathis_config={
+                                siteNum:4,
+                                sm:"weixin,tsina,cqq,email",
+                                summary:"",
+                                boldNum:4,
+                                shortUrl:false,
+                                hideMore:true
+                            }
+                                </script>
+                            <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+                            <!-- JiaThis Button END -->
+                        </ul>	
+                        <div class="search">
+                            <form>
+                                <input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}" >
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- 页脚模板 -->
+    <div class="footer">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="col-md-4 footer-in">
+                        <h4><i> </i>关于我们</h4>
+                        <p>软件学院2班IT项目管理大作业</p>
+                    </div>
+                    <div class="col-md-4 footer-in">
+                        <h4><i class="cross"> </i>项目负责人</h4>
+                        <p>周梵</p>
+                    </div>
+                    <div class="col-md-4 footer-in">
+                        <h4><i class="down"> </i>项目成员</h4>
+                        <p>周梵、林雪影、李蓉、丁可、杨晓东、陈冠年</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            
+            <p class="footer-class">Copyright &copy; 2017. CGNz All rights reserved.</p>
+            <script type="text/javascript">
+                        $(document).ready(function() {
+                            /*
+                            var defaults = {
+                                  containerID: 'toTop', // fading element id
+                                containerHoverID: 'toTopHover', // fading element hover id
+                                scrollSpeed: 1200,
+                                easingType: 'linear' 
+                             };
+                            */
+                            
+                            $().UItoTop({ easingType: 'easeOutQuart' });
+                            
+                        });
+                    </script>
+                <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    
+        </div>
 </body>
-</html>

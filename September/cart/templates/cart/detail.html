@@ -1,127 +1,107 @@
 {% extends "shop/base.html" %}
 {% load static %}
-{% block title %}Your shopping cart{% endblock %}
 
-{% block content %}
-<h1>Your shopping cart</h1>
-{% if error %}
-<p style="color: red">Please choose some products.</p>
-{% endif %}
-<form method="GET" action="{% url 'cart:checkout' %}">
-    {% csrf_token %}
-    <table class="cart">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="checkAll" name="checkAll"></th>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Remove</th>
-                <th>Unit price</th>
-                <th>Price</th>              
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            {% with product=item.item %}
-            <tr>
-                <td>
-                    <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
-                </td>
-                <td>
-                    <a href="{{product.get_absolute_url}}">
-                        <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                    </a>
-                </td>
-                <td>{{product.name}}</td>
-                <td>
-                    <p class="item-quantity">{{item.item_quantity}}</p>
-                    <div><br></div>
-                    <div>
-                        <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}">
-                        <input type="button" class="quantity-verify" value="更改">
-                    </div>
-                </td>
-                <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
-                <td class="num unit-price">${{product.price}}</td>
-                <td class="num unit-total-price">${{item.get_price}}</td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-            <tr class="total">
-                <td>Total</td>
-                <td colspan="5"></td>
-                <td class="num total-price">${{cart.get_total_price}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" value="Checkout">
-</form>
-<p class="text-right">
-        <a href="{% url 'shop:product_list' %}" class="button light">Continue shopping</a>
-</p>
-    
-<script type="text/javascript">
-    $(function(){
-        function initTableCheckbox(){
-            var $thr=$('table thead tr');
-            var $tbr=$('table tbody tr');
-            var $checkAllTh=$('<th><input type="checkbox" id="checkAll" name="checkAll"></th>');
-            var $checkAll=$thr.find('input');
-
-            $checkAll.click(function(event){
-                //所有项的“是否选中”状态设置为“checkAll”的“是否选中”状态
-                $tbr.find('input').prop('checked',$(this).prop('checked'));
-                //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
-                event.stopPropagation();
-            });
-            //点击全选框所在单元格时也触发全选框的点击操作
-            $checkAllTh.click(function(){
-                $(this).find('input').click();
-
-            });
-
-            $tbr.find('input').click(function(event){
-                $checkAll.prop('checked',$tbr.find('input:checked').length==$tbr.length?true:false);
-                event.stopPropagation();
-            });
-
-        }
-        function changeUnitTotalPrice(i){
-            var itemQuantity=$('.item-quantity');
-            var unitPrice=$('.unit-price');
-            var num=unitPrice[i].innerHTML.substring(1);
-            return (parseFloat(itemQuantity[i].innerHTML)*parseFloat(num)).toFixed(2);
-
-        }
-        function changeQuantity(){
-            var itemQuantity=$('.item-quantity');
-            var quantityField=$('.quantity-field');
-            var quantityVerify=$('.quantity-verify');
-            var unitTotalPrice=$('.unit-total-price');
-            for(var i=0;i<quantityVerify.length;i++){
-                    quantityVerify[i].onclick=function(i){
-                        return function(){
-                            if(quantityField[i].value){
-                                itemQuantity[i].innerHTML=quantityField[i].value;
-                                unitTotalPrice[i].innerHTML='$'+changeUnitTotalPrice(i);
-                                var total=0;
-                                for(var j=0;j<quantityVerify.length;j++){
-                                    total+=parseFloat(changeUnitTotalPrice(j)); 
-                                }
-                                $('.total-price')[0].innerHTML='$'+total.toFixed(2);
-                            }
-                        };
-
-                    }(i);
-            }
-        }
-        initTableCheckbox();
-        changeQuantity();
-        
-
-
-    });
-</script>    
+{% block title %}
+    Your shopping cart
 {% endblock %}
 
+{% block content %}
+
+	<div class="containerz" style="padding: 5em 15em 3em 15em;">
+		<div style="padding-bottom:2em">	
+            <h3 >购物车</h1>
+            {% if error %}
+                <p style="color: red">Please choose some products.</p>
+            {% endif %}
+			<!-- <strong>——————————</strong> -->
+			<div style="height:20px; weight:20px; border-bottom:2px solid #000000cc;" ></div>
+        </div>
+        <form method="GET" action="{% url 'cart:checkout' %}">
+        {% csrf_token %}
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll" name="checkAll"></th>
+                        <th>图片</th>
+                        <th>名称</th>
+                        <th>数量</th>
+                        <th>移除</th>
+                        <th>单价</th>                
+                        <th>总价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    {% with product=item.item %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
+                        </td>
+                        <td>
+                            <a href="{{ product.get_absolute_url }}">
+                                <!-- <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}"> -->
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" class="img-responsive img-thumbnail">
+                            </a>
+                        </td>
+                        <td>{{product.name}}</td>
+                        <td>
+                            Quantity:{{item.item_quantity}}
+                            <div><br></div>
+                            <div>
+                                <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}">
+                                <input type="button" class="quantity-verify" value="更改">
+                            </div>
+                        </td>
+                        <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
+                        <td class="num unit-price">${{product.price}}</td>
+                        <td class="num unit-total-price">${{item.get_price}}</td>
+                    </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr class="total">
+                    <td></td>
+                    <td><strong>总计</strong></td>
+                    <td colspan="4"></td>
+                    <td class="num">${{ cart.get_total_price }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="text-right">
+                <input type="submit" value="Checkout">
+                <a href="{% url "shop:product_list" %}" class="btn btn-link" style="color:#000000a4">继续购物</a>
+                <!-- <a href="{% url "orders:order_create" %}" class="btn btn-warning" style="color:#000000cc"><strong>结算</strong></a> -->
+            </p>
+        </form>	
+	</div>
+    
+    <script type="text/javascript">
+        $(function(){
+            function initTableCheckbox(){
+                var $thr=$('table thead tr');
+                var $tbr=$('table tbody tr');
+                var $checkAllTh=$('<th><input type="checkbox" id="checkAll" name="checkAll"></th>');
+                var $checkAll=$thr.find('input');
+    
+                $checkAll.click(function(event){
+                    //所有项的“是否选中”状态设置为“checkAll”的“是否选中”状态
+                    $tbr.find('input').prop('checked',$(this).prop('checked'));
+                    //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
+                    event.stopPropagation();
+                });
+                //点击全选框所在单元格时也触发全选框的点击操作
+                $checkAllTh.click(function(){
+                    $(this).find('input').click();
+    
+                });
+    
+                $tbr.find('input').click(function(event){
+                    $checkAll.prop('checked',$tbr.find('input:checked').length==$tbr.length?true:false);
+                    event.stopPropagation();
+                });
+    
+            }
+            initTableCheckbox();
+    
+        });
+    </script>    
+{% endblock %}	

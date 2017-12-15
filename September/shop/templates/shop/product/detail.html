@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
     <div class="product-detail">
         <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
         <h1>{{product.name}}</h1>
@@ -14,21 +15,106 @@
         <form action="{% url 'cart:cart_add' product.id %}" method="post">
             {{cart_product_form}}
             {% csrf_token %}
-            <input type="submit" value="Add to cart">
+            <input type="submit" value="加入购物车">
         </form>
-        {{product.description|linebreaks}}
+        
+        <p style="padding-top:1em"><strong>商品简介</strong>{{product.description|linebreaks}}</p>
     </div>
     <div class="comments">
+        <p style="padding-top:1em"><br><br><strong>商品评价</strong></p>
         {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                Comment by {{comment.user.username}}
-                {{comment.publish}}
-            </p>
-            {{comment.body|linebreaks}}
+        <div class="available">
+                <div class="comments">
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <p class="info">
+                            Comment by {{comment.user.username}}
+                            {{comment.publish}}
+                        </p>
+                        {{comment.body|linebreaks}}
+                    </div>
+                    {% empty %}
+                        <p>There are no comments yet.</p>
+                    {% endfor %}
+                </div>
         </div>
         {% empty %}
             <p>There are no comments yet.</p>
-    {% endfor %}
+        {% endfor %}
     </div>
+    <div class="clearfix"> </div>
+</div>
+    
+    <!-- <div class="container">
+        <div class="single">
+                <div class="col-md-12 top-in-single">
+                    <div class="col-md-7 single-top">	
+                        
+                        <div class="flexslider">
+                                       
+                            <script src="js/imagezoom.js"></script>
+                            <script defer src="js/jquery.flexslider.js"></script>
+                            <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+        
+                            <script>
+                                            // Can also be used with $(document).ready()
+                                $(window).load(function() {
+                                            $('.flexslider').flexslider({
+                                                animation: "slide",
+                                                controlNav: "thumbnails"
+                                            });
+                                            });
+                            </script>
+                                       
+        
+                            <ul class="slides">
+                                    <li data-thumb="images/si1.jpg">
+                                        <div class="thumb-image">
+                                            <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                                        </div>
+                                    </li>
+                                </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>	
+                    <div class="col-md-5 single-top-in">
+                        <div class="single-para">
+                            <h4>{{product.name}}</h4>
+                            <div class="para-grid">
+                                <span class="add-to"><p class="price">${{product.price}}</p></span>
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    {{cart_product_form}}
+                                    {% csrf_token %}
+                                    <input type="submit" value="添加到购物车">
+                                </form>
+                                {{product.description|linebreaks}}				
+                                <div class="clearfix"></div>
+                            </div>
+                            
+                            <div class="available">
+                                <div class="comments">
+                                    {% for comment in comments %}
+                                    <div class="comment">
+                                        <p class="info">
+                                            Comment by {{comment.user.username}}
+                                            {{comment.publish}}
+                                        </p>
+                                        {{comment.body|linebreaks}}
+                                    </div>
+                                    {% empty %}
+                                        <p>There are no comments yet.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+        </div>    
+    </div> -->
+    
+        
 {% endblock %}
