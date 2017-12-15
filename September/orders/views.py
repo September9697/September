@@ -72,3 +72,8 @@ def VerifyOrder(request,order_id):
 	order.verified=True
 	order.save()
 	return redirect(reverse('orders:order_list'))
+
+
+def repay(request,order_id):
+	request.session['order_id']=order_id
+	return redirect(reverse('payment:process'))

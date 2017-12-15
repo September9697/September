@@ -7,8 +7,12 @@ Your orders
 {% block content %}
     <ul>
         {% for order in orders %}
+        {% if order.paid %}
             <li>
                 <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
+                <br>
+                {{order.paid}}
+                {{order.last_name}}
                 <br>
                 {% if order.verified %}
                     <p>The order has been verified</p>
@@ -18,6 +22,7 @@ Your orders
 
                 <br>
             </li>
+        {% endif %}
         {% endfor %}
     </ul>
 {% endblock %}

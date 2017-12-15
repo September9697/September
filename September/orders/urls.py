@@ -7,4 +7,5 @@ urlpatterns=[
 	url(r'^orderlist/$',views.order_list,name='order_list'),
 	url(r'^(?P<id>\d+)/$',views.order_detail,name='order_detail'),
 	url(r'^verify/(?P<order_id>\d+)/$',views.VerifyOrder,name='verify'),
+	url(r'^repay/(?P<order_id>\d+)/$',views.repay,name='repay'),
 ]

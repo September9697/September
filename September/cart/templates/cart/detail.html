@@ -69,20 +69,21 @@
             var $checkAllTh=$('<th><input type="checkbox" id="checkAll" name="checkAll"></th>');
             var $checkAll=$thr.find('input');
 
+            // 全部选择或者全部不选择
             $checkAll.click(function(event){
                 //所有项的“是否选中”状态设置为“checkAll”的“是否选中”状态
                 $tbr.find('input').prop('checked',$(this).prop('checked'));
                 //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
                 event.stopPropagation();
             });
-            //点击全选框所在单元格时也触发全选框的点击操作
-            $checkAllTh.click(function(){
-                $(this).find('input').click();
+            // //点击全选框所在单元格时也触发全选框的点击操作
+            // $checkAllTh.click(function(){
+            //     $(this).find('input').click();
 
-            });
+            // });
 
             $tbr.find('input').click(function(event){
-                $checkAll.prop('checked',$tbr.find('input:checked').length==$tbr.length?true:false);
+                $checkAll.prop('checked',$tbr.find('input:checked').length==($tbr.length-1)?true:false);
                 event.stopPropagation();
             });
 

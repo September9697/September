@@ -10,6 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 # 因为PayPal能通过POST渠道重定向用户到以下两个视图（views）
 @csrf_exempt
 def payment_done(request):
+	order_id = request.session.get('order_id')
+	order=get_object_or_404(Order,id=order_id)
+	order.paid=True
+	order.save()
 	return render(request,'payment/done.html')
 
 @csrf_exempt

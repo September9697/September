@@ -10,6 +10,7 @@
 		address:{{order.address}}<br>
 		postal code:{{order.postal_code}}<br>
 		city:{{order.city}}<br>
+
 	</div>
 	<br>
 	<div class="item-info">
@@ -41,6 +42,7 @@
 		You have paid this order<br>
 		{%else%}
 		You have not paid this order yet!<br>
+		<a href="{% url 'orders:repay' order.id %}">go to pay the order</a>
 		{%endif%}
 	</div>
 </div>

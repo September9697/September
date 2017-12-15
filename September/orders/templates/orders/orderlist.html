@@ -10,10 +10,15 @@ Your orders
             <li>
                 <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
                 <br>
-                {% if order.verified %}
-                    <p>The order has been verified</p>
+                {% if order.paid %}
+                    {% if order.verified %}
+                        <p>The order has been verified</p>
+                    {% else %}
+                        <a href="{% url 'orders:verify' order.id %}">Verifiy the order</a>
+                    {% endif %}
                 {% else %}
-                    <a href="{% url 'orders:verify' order.id %}">Verifiy the order</a>
+                    You have not paid this order yet!<br>
+                    <a href="{% url 'orders:repay' order.id %}">go to pay the order</a>
                 {% endif %}
 
                 <br>
