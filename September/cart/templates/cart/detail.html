@@ -35,24 +35,23 @@
                 </td>
                 <td>{{product.name}}</td>
                 <td>
-                    Quantity:{{item.item_quantity}}
+                    <p class="item-quantity">{{item.item_quantity}}</p>
                     <div><br></div>
-                    <form action="{% url 'cart:cart_change_num' product.id %}" method="post">
-                        {{cart_product_form.quantity}}
-                        <input type="submit" value="Change">
-                        {% csrf_token %}
-                    </form>
+                    <div>
+                        <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}">
+                        <input type="button" class="quantity-verify" value="更改">
+                    </div>
                 </td>
                 <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
-                <td class="num">${{product.price}}</td>
-                <td class="num">${{item.get_price}}</td>
+                <td class="num unit-price">${{product.price}}</td>
+                <td class="num unit-total-price">${{item.get_price}}</td>
             </tr>
             {% endwith %}
             {% endfor %}
             <tr class="total">
                 <td>Total</td>
                 <td colspan="5"></td>
-                <td class="num">${{cart.get_total_price}}</td>
+                <td class="num total-price">${{cart.get_total_price}}</td>
             </tr>
         </tbody>
     </table>
@@ -88,7 +87,39 @@
             });
 
         }
+        function changeUnitTotalPrice(i){
+            var itemQuantity=$('.item-quantity');
+            var unitPrice=$('.unit-price');
+            var num=unitPrice[i].innerHTML.substring(1);
+            return (parseFloat(itemQuantity[i].innerHTML)*parseFloat(num)).toFixed(2);
+
+        }
+        function changeQuantity(){
+            var itemQuantity=$('.item-quantity');
+            var quantityField=$('.quantity-field');
+            var quantityVerify=$('.quantity-verify');
+            var unitTotalPrice=$('.unit-total-price');
+            for(var i=0;i<quantityVerify.length;i++){
+                    quantityVerify[i].onclick=function(i){
+                        return function(){
+                            if(quantityField[i].value){
+                                itemQuantity[i].innerHTML=quantityField[i].value;
+                                unitTotalPrice[i].innerHTML='$'+changeUnitTotalPrice(i);
+                                var total=0;
+                                for(var j=0;j<quantityVerify.length;j++){
+                                    total+=parseFloat(changeUnitTotalPrice(j)); 
+                                }
+                                $('.total-price')[0].innerHTML='$'+total.toFixed(2);
+                            }
+                        };
+
+                    }(i);
+            }
+        }
         initTableCheckbox();
+        changeQuantity();
+        
+
 
     });
 </script>    

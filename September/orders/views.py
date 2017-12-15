@@ -12,10 +12,15 @@ def order_create(request):
 		cart=get_object_or_404(Cart,user=request.user)
 		total_price=0
 		items=[]
+		quantity=request.session['quantity']
 		for idd in request.session['items']:
+			q=quantity.pop(0)
 			item=get_object_or_404(CartItem,id=idd)
 			items.append(item)
-			total_price+=item.item.price*item.item_quantity
+			item.item_quantity=q
+			item.save()
+			total_price+=item.item.price*int(q)
+
 
 		if request.method=='POST':
 			form=OrderCreateForm(request.POST)

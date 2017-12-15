@@ -57,10 +57,18 @@ def checkout(request):
 		if not itemlist:
 			redirect(reverse('cart:cart_detail'))
 		else:
-			request.session['items']=[]
-			for idd in itemlist:
-				request.session['items'].append(idd)
-			return redirect(reverse('orders:order_create'))
+			if 'quantity' in request.GET and request.GET['quantity']:
+				quantity=request.GET['quantity']
+				request.session['quantity']=[]
+				for q in quantity:
+					request.session['quantity'].append(q)
+
+				request.session['items']=[]
+				for idd in itemlist:
+					request.session['items'].append(idd)
+				return redirect(reverse('orders:order_create'))
+			else:
+				redirect(reverse('cart:cart_detail'))
 	return redirect(reverse('cart:cart_detail'))
 
 	
