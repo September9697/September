@@ -3,64 +3,68 @@
 {% block title %}Your shopping cart{% endblock %}
 
 {% block content %}
-<h1>Your shopping cart</h1>
+
 {% if error %}
+<h1>Your shopping cart</h1>
 <p style="color: red">Please choose some products.</p>
 {% endif %}
-<form method="GET" action="{% url 'cart:checkout' %}">
-    {% csrf_token %}
-    <table class="cart">
-        <thead>
-            <tr>
-                <th><input type="checkbox" id="checkAll" name="checkAll"></th>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Remove</th>
-                <th>Unit price</th>
-                <th>Price</th>              
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            {% with product=item.item %}
-            <tr>
-                <td>
-                    <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
-                </td>
-                <td>
-                    <a href="{{product.get_absolute_url}}">
-                        <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                    </a>
-                </td>
-                <td>{{product.name}}</td>
-                <td>
-                    <p class="item-quantity">{{item.item_quantity}}</p>
-                    <div><br></div>
-                    <div>
-                        <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}">
-                        <input type="button" class="quantity-verify" value="更改">
-                    </div>
-                </td>
-                <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
-                <td class="num unit-price">${{product.price}}</td>
-                <td class="num unit-total-price">${{item.get_price}}</td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-            <tr class="total">
-                <td>Total</td>
-                <td colspan="5"></td>
-                <td class="num total-price">${{cart.get_total_price}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" value="Checkout">
-</form>
-<p class="text-right">
-        <a href="{% url 'shop:product_list' %}" class="button light">Continue shopping</a>
-</p>
-    
+<div class="container">
+    <h1>Your shopping cart</h1>
+    <form method="GET" action="{% url 'cart:checkout' %}">
+        {% csrf_token %}
+        <table class="cart" style="width:100%">
+            <thead style="width:220px">
+                <tr>
+                    <th><input type="checkbox" id="checkAll" name="checkAll"></th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Remove</th>
+                    <th>Unit price</th>
+                    <th>Price</th>              
+                </tr>
+            </thead>
+            <tbody style="">
+                {% for item in items %}
+                {% with product=item.item %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
+                    </td>
+                    <td>
+                        <a href="{{product.get_absolute_url}}">
+                            <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                        </a>
+                    </td>
+                    <td>{{product.name}}</td>
+                    <td>
+                        <p class="item-quantity">{{item.item_quantity}}</p>
+                        <div><br></div>
+                        <div>
+                            <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}" style="width:40px">
+                            <input type="button" class="quantity-verify" value="更改">
+                        </div>
+                    </td>
+                    <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
+                    <td class="num unit-price">${{product.price}}</td>
+                    <td class="num unit-total-price">${{item.get_price}}</td>
+                </tr>
+                {% endwith %}
+                {% endfor %}
+                <tr class="total">
+                    <td>Total</td>
+                    <td colspan="5"></td>
+                    <td class="num total-price">${{cart.get_total_price}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="Checkout">
+    </form>
+    <p class="text-right">
+            <a href="{% url 'shop:product_list' %}" class="button light">Continue shopping</a>
+    </p>
+    <div class="clearfix"></div>
+</div>
 <script type="text/javascript">
     $(function(){
         function initTableCheckbox(){
