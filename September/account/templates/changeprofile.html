@@ -6,6 +6,9 @@
 
 {% block content %}
     <div class="container">
+        <div style="margin-top:30px; margin-bottom:30px">
+            <h2>添加个人信息</h2>
+        </div>
         <form action="{% url 'account:changeprofile' %}" method="POST" enctype="multipart/form-data">
             {{form.as_p}}
             {% csrf_token %}
