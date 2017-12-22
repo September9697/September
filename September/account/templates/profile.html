@@ -4,23 +4,30 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Hello, {{user.username}}</h1>
-    <div class="avatar">
-        <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
+    <div class="container">
+        <h1>Hello, {{user.username}}</h1>
+        <div class="avatar">
+            <h2>个人信息</h2>
+            <br>
+            <p>头像：</p>
+            <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
+        </div>
+        
+        <div class="detail" style="margin-top:30px">
+            <ul>
+                <li>Username: {{user.username}}</li>
+                <li>Sex:{{user.profile.sex}}</li>
+                <li>E-mail: {{user.email}}</li>
+                <li>Phone:{{user.profile.phone}}</li>
+                <li>Address:{{user.profile.address}}</li>
+                <li>Postal_code:{{user.profile.postal_code}}</li>
+                <li>City:{{user.profile.city}}</li>
+            </ul>
+            <form action="{% url 'account:changeprofile' %}" method="GET">
+                <input type="submit" value="完善个人信息">
+            </form>
+        </div>
+        <div class="clearfix"></div>
     </div>
     
-    <div class="detail">
-        <ul>
-            <li>Username: {{user.username}}</li>
-            <li>Sex:{{user.profile.sex}}</li>
-            <li>E-mail: {{user.email}}</li>
-            <li>Phone:{{user.profile.phone}}</li>
-            <li>Address:{{user.profile.address}}</li>
-            <li>Postal_code:{{user.profile.postal_code}}</li>
-            <li>City:{{user.profile.city}}</li>
-        </ul>
-        <form action="{% url 'account:changeprofile' %}" method="GET">
-            <input type="submit" value="Change profile">
-        </form>
-    </div>
 {% endblock %}

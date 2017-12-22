@@ -33,7 +33,32 @@
 		</div>
 	</div>
 </div> -->
-
+<div class="header-bottom">
+        <div class="container">
+            <div class="h_menu4">
+                <a class="toggleMenu" href="#">Menu</a>
+                <ul class="nav">
+                        <li {% if not category %}{% endif %} style="padding-top:1.5em">
+                            <a href="{% url "shop:product_list" %}">All</a>
+                            <ul class="drop">
+                                {% for c in categories %}
+                                    <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% for c in categories %}
+                        <li {% if category.slug == c.slug %}{% endif %} style="padding-top:1.5em">
+                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                            <ul class="drop">
+                                <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                            </ul>
+                        </li>
+                        {% endfor %}           
+                </ul>
+                <script type="text/javascript" src="{% static 'js/nav.js' %}"></script>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
             <div class="products">
