@@ -29,7 +29,7 @@ Your orders
 
 
     <div class="information">
-    		<h2 class="information-in" style="margin-top:50px">我的订单列表</h2>
+    		<h2 class="information-in test" style="margin-top:50px">我的订单列表</h2>
     	</div>
     	<form name="/" class="card-form">
     		<div class="table-responsive">
@@ -44,7 +44,7 @@ Your orders
     				<tbody>
                         {% for order in orders %}
     					<tr class="text-center">
-    						<td>
+    						<td class="orderid">
                                 <a href="{{order.get_absolute_url}}">订单{{order.id}}</a>
                             </td>
     						<td> 
@@ -69,5 +69,22 @@ Your orders
 
     <div class="clearfix"></div>
 </div>
+<script type="text/javascript">
+    $(function(){
+        function clickOrder(){
+            var orderid=$('.orderid');
+            for(var i=0;i<orderid.length;i++){
+                orderid[i].onclick=function(i){
+                    return function(){
+                        orderid[i].children[0].click();
+                    };
+                    
+                }(i);
+            }
+        }
+        clickOrder();
+
+    });
+</script>
     
 {% endblock %}
