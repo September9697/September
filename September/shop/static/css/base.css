@@ -73,7 +73,7 @@ table.cart {
 }
 
 table.cart img {
-    width:180px;
+    width:1800px;
 }
 
 tbody td.num {
@@ -297,7 +297,7 @@ ul.errorlist {
 }
 
 .recommendations.cart {
-    width:60%;
+    width:80%;
     float:left;
     overflow:auto;
 }
