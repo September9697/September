@@ -5,6 +5,7 @@ Your orders
 {% endblock %}
 
 {% block content %}
+<div class="container">
     <ul>
         {% for order in orders %}
             <li>
@@ -25,4 +26,7 @@ Your orders
             </li>
         {% endfor %}
     </ul>
+    <div class="clearfix"></div>
+</div>
+    
 {% endblock %}
