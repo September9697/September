@@ -45,14 +45,14 @@ Your orders
                         {% for order in orders %}
     					<tr class="text-center">
     						<td>
-                                <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
+                                <a href="{{order.get_absolute_url}}">订单{{order.id}}</a>
                             </td>
     						<td> 
                                 {% if order.paid %}
                                     {% if order.verified %}
-                                        <p>The order has been verified</p>
+                                        <p>订单已经确认！请前往详情页进行商品评价。</p>
                                     {% else %}
-                                        <a href="{% url 'orders:verify' order.id %}">Verifiy the order</a>
+                                        <a href="{% url 'orders:verify' order.id %}">确认订单</a>
                                     {% endif %}
                                 {% else %}
                                     尚未付款！

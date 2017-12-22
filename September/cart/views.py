@@ -4,6 +4,7 @@ from shop.models import Product
 from .models import Cart,CartItem
 from .forms import CartAddProductForm
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 # 用require_POST来只响应POST请求
 @require_POST
@@ -22,16 +23,17 @@ def cart_add(request,product_id):
 			item[0].save()
 	return redirect('cart:cart_detail')
 
-def cart_change_num(request,product_id):
-	form=CartAddProductForm(request.POST)
-	if form.is_valid():
-		cd=form.cleaned_data
-		cart=get_object_or_404(Cart,user=request.user)
-		product=get_object_or_404(Product,id=product_id)
-		item=get_object_or_404(CartItem,cart=cart,item=product)
-		item.item_quantity=cd['quantity']
+def cart_change_num(request):
+	id=request.GET.get('id')
+	q=request.GET.get('q')
+	if not id or not q:
+		return HttpResponse('error!')
+	else:
+		item=get_object_or_404(CartItem,id=id)
+		item.item_quantity=q
 		item.save()
-	return redirect('cart:cart_detail')
+		return HttpResponse(q);
+
 
 
 

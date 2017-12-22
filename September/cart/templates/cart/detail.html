@@ -44,7 +44,7 @@
                     </td>
                     <td>{{product.name}}</td>
                     <td>
-                        <p class="item-quantity">{{item.item_quantity}}</p>
+                        <p class="item-quantity" name=''>{{item.item_quantity}}</p>
                         <div><br></div>
                         <div>
                             <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}" style="width:40px">
@@ -94,6 +94,7 @@
                 $tbr.find('input').prop('checked',$(this).prop('checked'));
                 //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
                 event.stopPropagation();
+                changeTotalPrice();
             });
 
             //点击每个商品的checkbox时
@@ -112,14 +113,17 @@
             var itemQuantity=$('.item-quantity');
             var unitPrice=$('.unit-price');
             var num=unitPrice[i].innerHTML.substring(1);
+            //每个商品的数量乘以价格
             return (parseFloat(itemQuantity[i].innerHTML)*parseFloat(num)).toFixed(2);
 
         }
-        //改变总价格
+        //改变选取商品总价格
         function changeTotalPrice(){
             var checkboxs=$('.is-checked');
             var unitTotalPrice=$('.unit-total-price');
+            //total为选取商品的总价格
             var total=0;
+            //如果商品被选择，则提取商品总价格加到total上面
             for(var j=0;j<checkboxs.length;j++){
                 if(checkboxs[j].checked){
                     var num=unitTotalPrice[j].innerHTML.substring(1);
@@ -130,12 +134,12 @@
 
         }
         //改变数量
+        /*
         function changeQuantity(){
             var itemQuantity=$('.item-quantity');
             var quantityField=$('.quantity-field');
             var quantityVerify=$('.quantity-verify');
             var unitTotalPrice=$('.unit-total-price');
-            var checkboxs=$('.is-checked');
             for(var i=0;i<quantityVerify.length;i++){
                     quantityVerify[i].onclick=function(i){
                         return function(){
@@ -148,35 +152,54 @@
                     }(i);
             }
         }
-        function ajaxChangeQuantity(){
-            var itemQuantity=$('.item-quantity');
+        */
+
+        //改变数量
+        function ajaxchangeQuantity(){
             var quantityField=$('.quantity-field');
             var quantityVerify=$('.quantity-verify');
+            var unitTotalPrice=$('.unit-total-price');
             var checkboxs=$('.is-checked');
             for(var i=0;i<quantityVerify.length;i++){
                 quantityVerify[i].onclick=function(i){
-                    alert(checkboxs[i].value);
-
-                    // return function(){
-                    //     var xmlhttp=null;
-                    //     if(window.ActiveXObject){
-                    //         xmlhttp=ActiveXObject("Microsoft.XMLHTTP");
-                    //     }else if(window.XMLHttpRequest){
-                    //         xmlhttp=new XMLHttpRequest();
-                    //     }
-                    //     if(null!=xmlhttp){
-
-                    //     }
-                    // };
-
+                    return function(){
+                        if(window.ActiveXObject){
+                            // code for IE6, IE5
+                            xmlhttp=new ActiveXObect("Microsoft.XMLHTTP");
+                        }else if(window.XMLHttpRequest){
+                            // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp=new XMLHttpRequest();
+                        }
+                        if(null!=xmlhttp){
+                            var id=checkboxs[i].value;
+                            var quantity=quantityField[i].value;
+                            if(!id) return;
+                            if(!quantity) return;
+                            var url="/cart/change/?id="+id+"&q="+quantity;
+                            xmlhttp.open('GET',url,true);
+                            xmlhttp.onreadystatechange=function(){
+                                if(xmlhttp.readyState==4){
+                                    if(xmlhttp.status==200){
+                                        var content=xmlhttp.responseText;
+                                        var itemQuantity=$('.item-quantity');
+                                        itemQuantity[i].innerHTML=content;
+                                        unitTotalPrice[i].innerHTML='$'+changeUnitTotalPrice(i);
+                                        changeTotalPrice();
+                                    }
+                                }
+                            };
+                            xmlhttp.send(null);
+                        }                         
+                    };
                 }(i);
 
             }
-
         }
+
+
         initTableCheckbox();
-        changeQuantity();
-        ajaxChangeQuantity();
+        changeTotalPrice();
+        ajaxchangeQuantity();
 
 
     });
