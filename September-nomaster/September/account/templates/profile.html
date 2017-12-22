@@ -1,0 +1,30 @@
+{% extends "shop/base.html" %}
+{% block title %}
+    Profile of {{username}}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Hello, {{user.username}}</h1>
+        <div class="avatar">
+            <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
+        </div>
+        
+        <div class="detail">
+            <ul>
+                <li>Username: {{user.username}}</li>
+                <li>Sex:{{user.profile.sex}}</li>
+                <li>E-mail: {{user.email}}</li>
+                <li>Phone:{{user.profile.phone}}</li>
+                <li>Address:{{user.profile.address}}</li>
+                <li>Postal_code:{{user.profile.postal_code}}</li>
+                <li>City:{{user.profile.city}}</li>
+            </ul>
+            <form action="{% url 'account:changeprofile' %}" method="GET">
+                <input type="submit" value="Change profile">
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    
+{% endblock %}

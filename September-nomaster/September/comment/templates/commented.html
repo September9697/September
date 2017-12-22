@@ -1,0 +1,12 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    Successfully commented
+{% endblock %}
+
+{% block content %}
+    <h1>You have successfully commented.</h1>
+    <div class="comment-body">
+        <h3>Your comment is:</h3>
+        <p>{{comment.body}}</p>
+    </div>
+{% endblock %}
