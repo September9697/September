@@ -108,6 +108,6 @@ venv.bak/
 *.so
 *.egg
 *.egg-info
+*.pyc
 dist
 build
-*.pyc
