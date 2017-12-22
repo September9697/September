@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^payment/',include('payment.urls',namespace='payment')),
     url(r'^account/',include('account.urls',namespace='account')),
     url(r'^comment/',include('comment.urls',namespace='comment')),
+    url(r'^search/', include('haystack.urls',namespace='haystack')), 
     url(r'^', include('shop.urls', namespace='shop')),
 ]
 if settings.DEBUG:
