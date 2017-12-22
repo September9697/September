@@ -48,7 +48,7 @@
                         <div><br></div>
                         <div>
                             <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}" style="width:40px">
-                            <input type="button" class="quantity-verify" value="更改" name={{item.id}}>
+                            <input type="button" class="quantity-verify" value="更改">
                         </div>
                     </td>
                     <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
@@ -81,6 +81,7 @@
 
 <script type="text/javascript">
     $(function(){
+        //checkbox状态
         function initTableCheckbox(){
             var $thr=$('table thead tr');
             var $tbr=$('table tbody tr');
@@ -94,11 +95,6 @@
                 //阻止向上冒泡，防止再次促发点击操作   这里还需要再看一下
                 event.stopPropagation();
             });
-            // //点击全选框所在单元格时也触发全选框的点击操作
-            // $checkAllTh.click(function(){
-            //     $(this).find('input').click();
-
-            // });
 
             //点击每个商品的checkbox时
             $tbr.find('input').click(function(event){
@@ -152,10 +148,35 @@
                     }(i);
             }
         }
+        function ajaxChangeQuantity(){
+            var itemQuantity=$('.item-quantity');
+            var quantityField=$('.quantity-field');
+            var quantityVerify=$('.quantity-verify');
+            var checkboxs=$('.is-checked');
+            for(var i=0;i<quantityVerify.length;i++){
+                quantityVerify[i].onclick=function(i){
+                    alert(checkboxs[i].value);
+
+                    // return function(){
+                    //     var xmlhttp=null;
+                    //     if(window.ActiveXObject){
+                    //         xmlhttp=ActiveXObject("Microsoft.XMLHTTP");
+                    //     }else if(window.XMLHttpRequest){
+                    //         xmlhttp=new XMLHttpRequest();
+                    //     }
+                    //     if(null!=xmlhttp){
+
+                    //     }
+                    // };
+
+                }(i);
+
+            }
+
+        }
         initTableCheckbox();
         changeQuantity();
-        changeTotalPrice();
-        
+        ajaxChangeQuantity();
 
 
     });
