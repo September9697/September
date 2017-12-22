@@ -9,6 +9,11 @@
 <p style="color: red">Please choose some products.</p>
 {% endif %}
 
+
+<!-- 
+<div class="container"> -->
+    
+
 <div class="container">
     <h1>Your shopping cart</h1>
     <form method="GET" action="{% url 'cart:checkout' %}">
@@ -25,12 +30,12 @@
                     <th>Price</th>              
                 </tr>
             </thead>
-            <tbody style="">
+            <tbody>
                 {% for item in items %}
                 {% with product=item.item %}
                 <tr>
                     <td>
-                        <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}">
+                        <input type="checkbox" name="checkbox" id="checkbox" value="{{item.id}}" class="is-checked">
                     </td>
                     <td>
                         <a href="{{product.get_absolute_url}}">
@@ -43,7 +48,7 @@
                         <div><br></div>
                         <div>
                             <input type="text" name="quantity" class="quantity-field" value="{{item.item_quantity}}" style="width:40px">
-                            <input type="button" class="quantity-verify" value="更改">
+                            <input type="button" class="quantity-verify" value="更改" name={{item.id}}>
                         </div>
                     </td>
                     <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
@@ -55,7 +60,7 @@
                 <tr class="total">
                     <td>Total</td>
                     <td colspan="5"></td>
-                    <td class="num total-price">${{cart.get_total_price}}</td>
+                    <td class="num total-price">$0.00</td>
                 </tr>
             </tbody>
         </table> 
@@ -65,6 +70,9 @@
         </p>
         
     </form>
+<!--     <div class="clearfix"></div> -->
+<!-- </div> -->
+
         <!-- <p class="text-right">
             <a href="{% url 'shop:product_list' %}" class="button light">继续购物</a>
         </p> -->
@@ -92,12 +100,18 @@
 
             // });
 
+            //点击每个商品的checkbox时
             $tbr.find('input').click(function(event){
+                //确定checkAll的状态
                 $checkAll.prop('checked',$tbr.find('input:checked').length==($tbr.length-1)?true:false);
+                //防止事件冒泡
                 event.stopPropagation();
+                changeTotalPrice();
+                
             });
 
         }
+        //改变每个商品的总价格
         function changeUnitTotalPrice(i){
             var itemQuantity=$('.item-quantity');
             var unitPrice=$('.unit-price');
@@ -105,22 +119,33 @@
             return (parseFloat(itemQuantity[i].innerHTML)*parseFloat(num)).toFixed(2);
 
         }
+        //改变总价格
+        function changeTotalPrice(){
+            var checkboxs=$('.is-checked');
+            var unitTotalPrice=$('.unit-total-price');
+            var total=0;
+            for(var j=0;j<checkboxs.length;j++){
+                if(checkboxs[j].checked){
+                    var num=unitTotalPrice[j].innerHTML.substring(1);
+                    total+=parseFloat(num);
+                }  
+            }
+            $('.total-price')[0].innerHTML='$'+total.toFixed(2);
+
+        }
+        //改变数量
         function changeQuantity(){
             var itemQuantity=$('.item-quantity');
             var quantityField=$('.quantity-field');
             var quantityVerify=$('.quantity-verify');
             var unitTotalPrice=$('.unit-total-price');
+            var checkboxs=$('.is-checked');
             for(var i=0;i<quantityVerify.length;i++){
                     quantityVerify[i].onclick=function(i){
                         return function(){
                             if(quantityField[i].value){
                                 itemQuantity[i].innerHTML=quantityField[i].value;
                                 unitTotalPrice[i].innerHTML='$'+changeUnitTotalPrice(i);
-                                var total=0;
-                                for(var j=0;j<quantityVerify.length;j++){
-                                    total+=parseFloat(changeUnitTotalPrice(j)); 
-                                }
-                                $('.total-price')[0].innerHTML='$'+total.toFixed(2);
                             }
                         };
 
@@ -129,6 +154,7 @@
         }
         initTableCheckbox();
         changeQuantity();
+        changeTotalPrice();
         
 
 

@@ -12,6 +12,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+# 搜索引擎
+HAYSTACK_CONNECTIONS = {  
+    'default': {  
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',  
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),  
+    },  
+}  
+HAYSTACK_SIGNAL_PROCESSOR='haystack.signals.RealtimeSignalProcessor'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'haystack',
     'account',
     'imagekit',
     'cart',
