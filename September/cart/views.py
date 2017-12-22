@@ -58,7 +58,7 @@ def checkout(request):
 			redirect(reverse('cart:cart_detail'))
 		else:
 			if 'quantity' in request.GET and request.GET['quantity']:
-				quantity=request.GET['quantity']
+				quantity=request.GET.getlist('quantity')
 				request.session['quantity']=[]
 				for q in quantity:
 					request.session['quantity'].append(q)
