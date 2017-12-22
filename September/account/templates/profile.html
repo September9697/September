@@ -5,16 +5,80 @@
 
 {% block content %}
     <div class="container">
-        <h1>Hello, {{user.username}}</h1>
-        <div class="avatar">
+        <!-- <h3>Hello, {{user.username}}</h3> -->
+        <div  style="margin:0px auto;width:500px; ">   
             <h2>个人信息</h2>
-            <br>
-            <p>头像：</p>
-            <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
+            
         </div>
         
-        <div class="detail" style="margin-top:30px">
-            <ul>
+        <div class="detail" style="margin:30px auto; width:500px; ">
+            <table class="table-bordered" style="margin-bottom:20px ">
+                <tr>
+                    <td>
+                         Image:
+                    </td>
+                    <td>
+                        <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                         Username:
+                    </td>
+                    <td>
+                        {{user.username}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sex:
+                    </td>
+                    <td>
+                        {{user.profile.sex}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        E-mail: 
+                    </td>
+                    <td>
+                        {{user.email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Phone:
+                    </td>
+                    <td>
+                        {{user.profile.phone}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Address:
+                    </td>
+                    <td>
+                        {{user.profile.address}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Postal_code:
+                    </td>
+                    <td>
+                        {{user.profile.postal_code}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        City:
+                    </td>
+                    <td>
+                        {{user.profile.city}}
+                    </td>
+                </tr>
+            </table>
+            <!-- <ul>
                 <li>Username: {{user.username}}</li>
                 <li>Sex:{{user.profile.sex}}</li>
                 <li>E-mail: {{user.email}}</li>
@@ -22,7 +86,7 @@
                 <li>Address:{{user.profile.address}}</li>
                 <li>Postal_code:{{user.profile.postal_code}}</li>
                 <li>City:{{user.profile.city}}</li>
-            </ul>
+            </ul> -->
             <form action="{% url 'account:changeprofile' %}" method="GET">
                 <input type="submit" value="完善个人信息">
             </form>

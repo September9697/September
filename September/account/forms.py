@@ -13,7 +13,7 @@ class RegisterForm(forms.Form):
         label='email',
         max_length=50,
         initial='',
-        widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'邮箱'}),
+        widget=forms.TextInput(attrs={'class': 'form-control sex','placeholder':'邮箱'}),
     )
 	password = forms.CharField(
     	label='password',

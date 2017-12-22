@@ -5,7 +5,8 @@ Your orders
 {% endblock %}
 
 {% block content %}
-    <ul>
+<div class="container">
+    <!-- <ul>
         {% for order in orders %}
             <li>
                 <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
@@ -24,5 +25,49 @@ Your orders
                 <br>
             </li>
         {% endfor %}
-    </ul>
+    </ul> -->
+
+
+    <div class="information">
+    		<h2 class="information-in" style="margin-top:50px">我的订单列表</h2>
+    	</div>
+    	<form name="/" class="card-form">
+    		<div class="table-responsive">
+    			<table class="table table-hover" style="margin-top:30px">
+    				<thead>
+    					<tr>
+    						<th>订单编号</th>
+    						<th>订单状态</th>
+    						
+    					</tr>
+    				</thead>
+    				<tbody>
+                        {% for order in orders %}
+    					<tr class="text-center">
+    						<td>
+                                <a href="{{order.get_absolute_url}}">order{{order.id}}</a>
+                            </td>
+    						<td> 
+                                {% if order.paid %}
+                                    {% if order.verified %}
+                                        <p>The order has been verified</p>
+                                    {% else %}
+                                        <a href="{% url 'orders:verify' order.id %}">Verifiy the order</a>
+                                    {% endif %}
+                                {% else %}
+                                    尚未付款！
+                                    <a href="{% url 'orders:repay' order.id %}">前往支付</a>
+                                {% endif %}
+                            </td>
+    						
+    					</tr>
+    					{% endfor %}
+    				</tbody>
+    			</table>
+    		</div>
+    	</form>
+
+    <div class="clearfix"></div>
+</div>
+    
 {% endblock %}
