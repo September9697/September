@@ -15,7 +15,7 @@
             <table class="table-bordered" style="margin-bottom:20px ">
                 <tr>
                     <td>
-                         Image:
+                         头像:
                     </td>
                     <td>
                         <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% endif %}">
@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <td>
-                         Username:
+                         用户名:
                     </td>
                     <td>
                         {{user.username}}
@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Sex:
+                        性别:
                     </td>
                     <td>
                         {{user.profile.sex}}
@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td>
-                        E-mail: 
+                        邮件: 
                     </td>
                     <td>
                         {{user.email}}
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Phone:
+                        联系电话:
                     </td>
                     <td>
                         {{user.profile.phone}}
@@ -55,7 +55,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Address:
+                        地址:
                     </td>
                     <td>
                         {{user.profile.address}}
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Postal_code:
+                        邮政编码:
                     </td>
                     <td>
                         {{user.profile.postal_code}}
@@ -71,7 +71,7 @@
                 </tr>
                 <tr>
                     <td>
-                        City:
+                        所在城市:
                     </td>
                     <td>
                         {{user.profile.city}}
@@ -88,7 +88,7 @@
                 <li>City:{{user.profile.city}}</li>
             </ul> -->
             <form action="{% url 'account:changeprofile' %}" method="GET">
-                <input type="submit" value="完善个人信息">
+                <input type="submit" value="完善个人信息" style="background-color: #333;">
             </form>
         </div>
         <div class="clearfix"></div>
