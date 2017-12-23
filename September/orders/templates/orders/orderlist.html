@@ -29,15 +29,15 @@ Your orders
 
 
     <div class="information">
-    		<h2 class="information-in test" style="margin-top:50px">我的订单列表</h2>
+    		<h2 class="information-in test" style="margin-top:50px">{{request.user.username}}的订单列表</h2>
     	</div>
     	<form name="/" class="card-form">
     		<div class="table-responsive">
     			<table class="table table-hover" style="margin-top:30px">
     				<thead>
     					<tr>
-    						<th>订单编号</th>
-    						<th>订单状态</th>
+    						<th  style="background-color: #333;">订单编号</th>
+    						<th  style="background-color: #333;">订单状态</th>
     						
     					</tr>
     				</thead>
@@ -52,7 +52,7 @@ Your orders
                                     {% if order.verified %}
                                         <p>订单已经确认！请前往详情页进行商品评价。</p>
                                     {% else %}
-                                        <a href="{% url 'orders:verify' order.id %}">确认订单</a>
+                                        <a href="{% url 'orders:verify' order.id %}" class="verifylink">确认订单</a>
                                     {% endif %}
                                 {% else %}
                                     尚未付款！
@@ -82,7 +82,22 @@ Your orders
                 }(i);
             }
         }
+        function verifyOrder(){
+            var verifylinks=$('.verifylink');
+            for(var i=0;i<verifylinks.length;i++){
+                verifylinks[i].onclick=function(){
+                    var r=confirm("确定要确认订单吗？");
+                    if(r){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                };
+            }
+
+        }
         clickOrder();
+        verifyOrder();
 
     });
 </script>

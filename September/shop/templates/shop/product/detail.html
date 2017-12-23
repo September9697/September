@@ -10,38 +10,34 @@
     <div class="product-detail">
         <img src="{% if product.image %}{{product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}">
         <h1>{{product.name}}</h1>
-        <h2><a href="{{product.category.get_absolute_url}}">{{product.category}}</a></h2>
-        <p class="price">${{product.price}}</p>
+        <h3>分类：<a href="{{product.category.get_absolute_url}}" style="color: #333;">{{product.category}}</a></h3>
+        <h3>价格：${{product.price}}</h3>
         <form action="{% url 'cart:cart_add' product.id %}" method="post">
             {{cart_product_form}}
             {% csrf_token %}
-            <input type="submit" value="加入购物车">
+            <input type="submit" value="加入购物车" style="background-color: #333;">
         </form>
         
         <p style="padding-top:1em"><strong>商品简介</strong>{{product.description|linebreaks}}</p>
     </div>
-    <div class="comments">
-        <p style="padding-top:1em"><br><br><strong>商品评价</strong></p>
-        {% for comment in comments %}
         <div class="available">
+            <p style="padding-top:1em"><br><br><strong>商品评价</strong></p>
                 <div class="comments">
                     {% for comment in comments %}
                     <div class="comment">
-                        <p class="info">
-                            Comment by {{comment.user.username}}
+                        <p class="info" style="color: #C6B520;">
+                            用户{{comment.user.username}}评论于
                             {{comment.publish}}
                         </p>
                         {{comment.body|linebreaks}}
+                        <br>
                     </div>
                     {% empty %}
-                        <p>There are no comments yet.</p>
+                        <p>还没有任何评论！</p>
                     {% endfor %}
                 </div>
         </div>
-        {% empty %}
-            <p>There are no comments yet.</p>
-        {% endfor %}
-    </div>
+
     <div class="clearfix"> </div>
 </div>
     

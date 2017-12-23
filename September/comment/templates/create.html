@@ -4,11 +4,37 @@
 {% endblock %}
 
 {% block content %}
-    <div class="comment">
-        <form action="{% url 'comment:create' item_id %}" method="POST">
-            {{comment_form.as_p}}
-            {% csrf_token %}
-            <p><input type="submit" value="Add comment"></p>
-        </form>
+	<style type="text/css">
+		.outer{
+			height: 400px;
+			margin: 0;
+			padding:0;
+
+		}
+		.comment{
+			height: 300px;
+			width: 300px;
+			margin:0 auto;
+			text-align: center;
+		}
+		.commentform{
+			margin-top: 100px;
+		}
+		#submit{
+			background-color: #333;
+		}
+	</style>
+
+
+    <div class="container outer">
+    	<div class="comment">
+    		<form action="{% url 'comment:create' item_id %}" method="POST" class="commentform">
+    			<h4>请输入您的评论：</h4>
+            	{{comment_form.body}}
+            	{% csrf_token %}
+            	<p><input type="submit" value="Add comment" id="submit"></p>
+        	</form>
+    	</div>
+        
     </div>
 {% endblock %}
