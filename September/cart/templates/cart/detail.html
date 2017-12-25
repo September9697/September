@@ -15,7 +15,7 @@
     
 
 <div class="container">
-    <h1>Your shopping cart</h1>
+    <h1>你的购物车</h1>
     <form method="GET" action="{% url 'cart:checkout' %}">
         {% csrf_token %}
         <table  style="width:100%; margin-bottom:20px">
@@ -58,7 +58,7 @@
                 {% endwith %}
                 {% endfor %}
                 <tr class="total">
-                    <td>Total</td>
+                    <td>总价</td>
                     <td colspan="5"></td>
                     <td class="num total-price">$0.00</td>
                 </tr>
