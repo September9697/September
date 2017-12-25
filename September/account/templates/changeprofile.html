@@ -6,18 +6,28 @@
 
 {% block content %}
     
-    <div class="container">
-        <div style="margin-top:30px; margin-bottom:30px">
-            <h2>修改个人信息</h2>
-        </div>
-        <form action="{% url 'account:changeprofile' %}" method="POST" enctype="multipart/form-data" style="margin-bottom:20px">
-            {{form.as_p}}
-            {% csrf_token %}
-
-            <input type="submit" value="submit" style=" float:left;background-color: #333;">     
-        </form>
-        <div class="clearfix"></div>
+<div class="container">
+    <div style="margin-top:30px; margin-bottom:30px">
+        <h2>修改个人信息</h2>
     </div>
+    <form action="{% url 'account:changeprofile' %}" method="POST" enctype="multipart/form-data" style="margin-bottom:20px">
+        {% for field in form %}
+        <div class="form-group">     
+          {{ field.label_tag }}         
+          <div class="">
+            {{ field }}
+        </div>
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+
+
+    {% csrf_token %}
+
+    <input type="submit" value="submit" style=" float:left;background-color: #333;">     
+</form>
+<div class="clearfix"></div>
+</div>
     <style>
         p{
             height:80px;
