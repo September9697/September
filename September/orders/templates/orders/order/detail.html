@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="container">
-	<div class="order-detail">
-		<div class="user-info">
+	<!-- <div class="order-detail">
+		<div class="order-info">
 			first name:{{order.first_name}}<br>
 			last name:{{order.last_name}}<br>
 			email:{{order.email}}<br>
@@ -43,10 +43,92 @@
 			You have paid this order<br>
 			{%else%}
 			You have not paid this order yet!<br>
-			<a href="{% url 'orders:repay' order.id %}">go to pay the order</a>
+			<a href="{% url 'orders:repay' order.id %}">前往支付</a>
 			{%endif%}
 		</div>
-	</div>
+	</div>	 -->
+
+	<style type="text/css">
+    	.mycenter1{
+    		margin-left:auto;
+    		margin-right:auto;
+    		height:auto;
+    		width:500px;
+    		padding:2%;
+    		padding-left:5%;
+    		padding-right:5%;
+    </style>
+    <div class="container">
+    	<div class="information">
+    		<h2 class="information-in">订单详情</h2>
+    	</div>
+    	<form name="/" class="card-form">
+    		<div class="form-group">
+    			<div  class="mycenter1"> 
+				 
+    				<p>姓：{{order.last_name}}</p>
+    				<p>名：{{order.first_name}}</p>
+    				<p>电子邮箱：{{order.email}}</p>
+    				<p>地址：{{order.address}}</p>
+    				<p>邮政编码：{{order.postal_code}}</p>
+    				<p>省市：{{order.city}}</p>
+    			</div>
+    		</div>
+    		<div class="table-responsive">
+    			<style type="text/css">
+    				.table tbody tr td{
+    					vertical-align: middle;
+    					}
+				</style>
+				{%for item in order.items.all%}
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>商品名称</th>
+								<th>商品价格</th>
+								<th>商品数量</th>
+								<th>商品评价</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center">
+								<td>{{item.product.name}}</td>
+								<td>{{item.price}}</td>
+								<td>{{item.quantity}}</td>
+								<td>
+									{% if order.verified %}
+										{% if not item.commented %}
+											<form action="{% url 'comment:create' item.id %}" method='GET'>
+												<input type="submit" value="make a comment">
+											</form>
+										{% endif %}
+									{% else %}
+										<p style="color: red;">你可以在商品支付后发起评价</p>
+									{% endif %}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				{%endfor%}
+					
+    		</div>
+    		<div style="line-height: 30px;" class="mycenter1"> 
+    			<span class="glyphicon glyphicon-usd" aria-hidden="true" style="font-size: 20px;"></span>
+    			<strong style="font-size: 20px;">订单总价：{{order.get_total_cost}}</strong></br>
+    			<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+    			订单创建时间：{{order.created}}</br>
+    			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+    			订单状态：{% if order.paid %}
+				已支付
+				{%else%}
+				尚未支付
+				<a href="{% url 'orders:repay' order.id %}">前往支付</a>
+				{%endif%}
+    		</div>
+    	</form>
+    </div>
+
+
 	<div class="clearfix"></div>
 </div>
 	
