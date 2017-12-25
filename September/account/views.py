@@ -22,9 +22,11 @@ def user_login(request):
 		login(request,user)
 		return redirect(reverse('shop:product_list'))
 	else:
+		error='用户不存在或者密码错误！'
 		return render(request,'login.html',{
 			'username':username,
 			'password':password,
+			'error':error
 			})
 
 

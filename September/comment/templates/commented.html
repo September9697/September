@@ -4,9 +4,19 @@
 {% endblock %}
 
 {% block content %}
-    <h1>You have successfully commented.</h1>
+<div class="comment">
+	 <h1>You have successfully commented.</h1>
     <div class="comment-body">
         <h3>Your comment is:</h3>
         <p>{{comment.body}}</p>
     </div>
+</div>
+<style>
+	.comment{
+		margin: 0 auto;
+		margin-top: 100px;
+		width: 600px;
+	}
+</style>
+   
 {% endblock %}

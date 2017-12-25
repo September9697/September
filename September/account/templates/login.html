@@ -15,7 +15,15 @@
    
   </head>
   <body>
-  	<div class="bg-div"></div>
+  	<div class="bg-div">
+  		{% if error %}
+  		<p style="color: white;" id="error">{{error}}</p>
+  		<script type="text/javascript">
+  			error=document.getElementById('error').innerHTML;
+  			alert(error);
+  		</script>
+  		{% endif %}
+  	</div>
   	<div><img src="{% static "img/logo1.png" %}" class="img-responsive"></div>
 		
 			<div class="mycenter box">

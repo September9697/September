@@ -51,7 +51,7 @@
                             <input type="button" class="quantity-verify" value="更改">
                         </div>
                     </td>
-                    <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
+                    <td><a href="{% url 'cart:cart_remove' product.id %}" class="remove">Remove</a></td>
                     <td class="num unit-price">${{product.price}}</td>
                     <td class="num unit-total-price">${{item.get_price}}</td>
                 </tr>
@@ -195,11 +195,26 @@
 
             }
         }
+        function verifyRemove(){
+            var removelinks=$('.remove');
+            for(var i=0;i<removelinks.length;i++){
+                removelinks[i].onclick=function(){
+                    var r=confirm("确定要移除商品吗？");
+                    if(r){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                };
+            }
+
+        }
 
 
         initTableCheckbox();
         changeTotalPrice();
         ajaxchangeQuantity();
+        verifyRemove();
 
 
     });

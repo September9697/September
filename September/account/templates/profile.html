@@ -33,8 +33,9 @@
                     <td>
                         性别:
                     </td>
-                    <td>
+                    <td id="sex">
                         {{user.profile.sex}}
+                        
                     </td>
                 </tr>
                 <tr>
@@ -93,5 +94,18 @@
         </div>
         <div class="clearfix"></div>
     </div>
+    <script type="text/javascript">
+        function changesex(){
+            sex=document.getElementById('sex');
+            if(sex.innerHTML.indexOf("W")>0){
+                 sex.innerHTML="女";
+             }else{
+                 sex.innerHTML='男'
+             }
+        }
+        changesex();
+        
+
+    </script>
     
 {% endblock %}
