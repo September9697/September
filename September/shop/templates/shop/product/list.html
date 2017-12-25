@@ -65,15 +65,15 @@
                     <h2 class=" products-in">{% if category %}{{ category.name }}{% else %}Products{% endif %}</h2>
                     <!-- <div class=" top-products"> -->
                     {% for product in products %}
-                    <div class="col-md-3 md-col">
-                        <div class="col-md">
-                            <a href="{{ product.get_absolute_url }}">
-                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+                    <div class="col-md-3 md-col" >
+                        <div class="col-md" style="margin-top:20px;">
+                            <a href="{{ product.get_absolute_url }}" >
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="height:140px">
                             </a>	
                             <div class="top-content">
                                 <h5><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
                                 <div class="white">
-                                    <a href="{{ product.get_absolute_url }}" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">添加到购物车</a>
+                                    <a href="{{ product.get_absolute_url }}" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2">商品详情</a>
 
                                     <p class="dollar"><span class="in-dollar">$</span><span>{{ product.price }}</span></p>
                                     <div class="clearfix"></div>
@@ -82,8 +82,8 @@
                         </div>
                     </div>
                     {% endfor %}
-                        <!--<div class="clearfix"></div>
-                    </div> -->
+
+                       
                     <div class="clearfix"></div>
             </div>
     </div>     

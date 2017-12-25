@@ -6,9 +6,12 @@ Checkout
 
 {% block content %}
 <div class="container">
-    <h1>Checkout</h1>
+    <div style="margin-top:30px; margin-bottom:30px">
+            <h1>订单编辑</h1>
+    </div>
+     
     <div class="order-info">
-        <h3>Your order</h3>
+        <h3>订单列表</h3>
         <ul>
             {% for item in items %}
             <li>
@@ -20,7 +23,7 @@ Checkout
     </div>
     <form action="." method='post' class="order-form">
         {{form.as_p}}
-        <p><input type="submit" value="Place order"></p>
+        <p><input type="submit" value="提交订单" style="margin-top:20px"></p>
         {% csrf_token %}
     </form>
     <div class="clearfix"></div>
